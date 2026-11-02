@@ -1,12 +1,15 @@
 {
 	"compilerOptions": {
-		"declaration": true,
-		"declarationDir": "./esm",
-		"outDir": "./esm",
-		"module": "ES6",
-		"target": "ES6",
-		"noImplicitAny": true,
-		"moduleResolution": "node"
+		"target": "ESNext",
+		"module": "ESNext",
+		"moduleResolution": "Bundler",
+		"types": ["node"],
+		"strict": true,
+		"skipLibCheck": true,
+		"forceConsistentCasingInFileNames": true,
+		"rootDir": "./source",
+		"outDir": "./build"
 	},
-	"types": "umd/sdrow.d.ts"
+	"include": ["source/**/*.mts"],
+	"exclude": ["source/**/*.test.mts", "node_modules"]
 }
