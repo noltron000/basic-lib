@@ -15,7 +15,16 @@
 		"digit",
 		"math",
 		"maths",
-		"shtam"
+		"shtam",
+		"dates",
+		"date",
+		"times",
+		"time",
+		"months",
+		"month",
+		"years",
+		"year",
+		"setad"
 	],
 	"author": "noltron000",
 	"license": "MIT",
