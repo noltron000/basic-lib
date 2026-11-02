@@ -2,12 +2,7 @@
 	"name": "shtam",
 	"version": "0.1.2",
 	"description": "a package library for numbers :)",
-	"source": "source/shtam.ts",
-	"main": "umd/shtam.js",
-	"module": "esm/sdrow.js",
-	"files": [
-		"umd"
-	],
+	"source": "source/shtam.mts",
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/noltron000/shtam.git"
@@ -29,20 +24,11 @@
 	},
 	"homepage": "https://github.com/noltron000/shtam#readme",
 	"devDependencies": {
-		"@types/jest": "^24.0.21",
-		"coveralls": "^3.0.7",
-		"jest": "^24.9.0",
-		"rollup": "^1.27.9",
-		"rollup-plugin-terser": "^5.1.2",
-		"rollup-plugin-typescript2": "^0.25.3",
-		"terser": "^4.4.2",
-		"ts-jest": "^24.1.0",
-		"typescript": "^3.6.4"
+		"@types/node": "^26.6.6",
+		"typescript": "^7.0.2"
 	},
 	"dependencies": {},
 	"scripts": {
-		"test": "jest --coverage",
-		"test:coveralls": "jest --coverage --coverageReporters=text-lcov | coveralls",
-		"rollup": "rollup -c"
+		"test": "node --experimental-strip-types --test source/shtam.test.mts"
 	}
 }
