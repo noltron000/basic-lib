@@ -2,12 +2,7 @@
 	"name": "shtam",
 	"version": "0.1.2",
 	"description": "a package library for numbers :)",
-	"source": "source/shtam.ts",
-	"main": "umd/shtam.js",
-	"module": "esm/sdrow.js",
-	"files": [
-		"umd"
-	],
+	"source": "source/shtam.mts",
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/noltron000/shtam.git"
@@ -33,5 +28,7 @@
 		"typescript": "^7.0.2"
 	},
 	"dependencies": {},
-	"scripts": {}
+	"scripts": {
+		"test": "node --experimental-strip-types --test source/shtam.test.mts"
+	}
 }
