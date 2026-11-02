@@ -30,14 +30,8 @@
 	"homepage": "https://github.com/noltron000/shtam#readme",
 	"devDependencies": {
 		"@types/node": "^26.6.6",
-		"coveralls": "^3.1.1",
-		"jest": "^30.5.2",
-		"ts-jest": "^29.4.15",
-		"typescript": "^6.0.3"
+		"typescript": "^7.0.2"
 	},
-	"scripts": {
-		"test": "jest --coverage",
-		"test:coveralls": "jest --coverage --coverageReporters=text-lcov | coveralls",
-		"rollup": "rollup -c"
-	}
+	"dependencies": {},
+	"scripts": {}
 }
