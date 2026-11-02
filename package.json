@@ -24,7 +24,12 @@
 		"month",
 		"years",
 		"year",
-		"setad"
+		"setad",
+		"cool",
+		"text",
+		"package",
+		"library",
+		"sdrow"
 	],
 	"author": "noltron000",
 	"license": "MIT",
