@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict'
 import test from 'node:test'
-import { Setad } from './setad.ts'
+import { Setad } from './index.mts'
 
 test('constructs dates from supported inputs and copies Date values', () => {
 	const source = new Date(2024, 1, 29, 13, 5, 6, 7)

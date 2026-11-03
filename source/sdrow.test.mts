@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict'
 import test from 'node:test'
-import * as sdrow from './sdrow.ts'
+import * as sdrow from './index.mts'
 
 // *BELOW ARE ALL WORD-BASED FUNCTIONS* //
 

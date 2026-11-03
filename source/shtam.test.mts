@@ -1,7 +1,7 @@
 
 import assert from 'node:assert/strict'
 import test from 'node:test'
-import * as shtam from './shtam.mts'
+import * as shtam from './index.mts'
 
 test('exports mathematical constants and rounding helpers', () => {
 	assert.equal(shtam.PHI, (1 + Math.sqrt(5)) / 2)
