@@ -1,13 +1,13 @@
 {
 	"name": "@noltron000/basic-lib",
-	"version": "0.1.2",
+	"version": "0.2.0",
 	"description": "A collection of math, date and time, and string utilities.",
-	"source": "source/index.mts",
-	"types": "source/index.mts",
+	"source": "./source/index.mts",
+	"types": "./source/index.mts",
 	"exports": "./source/index.mts",
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/noltron000/shtam.git"
+		"url": "git+https://github.com/noltron000/basic-lib.git"
 	},
 	"keywords": [
 		"math",
@@ -23,9 +23,9 @@
 	"author": "noltron000",
 	"license": "MIT",
 	"bugs": {
-		"url": "https://github.com/noltron000/shtam/issues"
+		"url": "https://github.com/noltron000/basic-lib/issues"
 	},
-	"homepage": "https://github.com/noltron000/shtam#readme",
+	"homepage": "https://github.com/noltron000/basic-lib#readme",
 	"devDependencies": {
 		"@types/node": "^26.6.6",
 		"typescript": "^7.0.2"
