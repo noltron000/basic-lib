@@ -1,21 +1,24 @@
 {
-	"name": "shtam",
+	"name": "@noltron000/basic-lib",
 	"version": "0.1.2",
-	"description": "a package library for numbers :)",
-	"source": "source/shtam.mts",
+	"description": "A collection of math, date and time, and string utilities.",
+	"source": "source/index.mts",
+	"types": "source/index.mts",
+	"exports": "./source/index.mts",
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/noltron000/shtam.git"
 	},
 	"keywords": [
-		"arithmetical",
-		"arithmetic",
-		"calculator",
-		"number",
-		"digit",
 		"math",
-		"maths",
-		"shtam"
+		"number",
+		"arithmetic",
+		"date",
+		"time",
+		"datetime",
+		"string",
+		"text",
+		"utilities"
 	],
 	"author": "noltron000",
 	"license": "MIT",
@@ -29,6 +32,6 @@
 	},
 	"dependencies": {},
 	"scripts": {
-		"test": "node --experimental-strip-types --test source/shtam.test.mts"
+		"test": "node --experimental-strip-types --test source/shtam.test.mts source/setad.test.mts source/sdrow.test.mts"
 	}
 }
