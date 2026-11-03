@@ -6,6 +6,10 @@
 BasicLib is a collection of small TypeScript utilities for math and numbers,
 dates and times, and strings. Its APIs are exported from one package entry point.
 
+> This project was created as a capstone for my college course, focusing on understanding npm libraries, installing them, and publishing them.
+> Today it's not as relevant, but I did clean it up with AI to at least make it presentable in my portfolio.
+> Still, its nice to ensure that projects I have published are useable and easy to understand, even if a few were school projects.
+
 ## Contents
 - [BasicLib](#basiclib)
 	- [Contents](#contents)
