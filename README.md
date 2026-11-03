@@ -1,65 +1,170 @@
-![npm](https://img.shields.io/npm/v/%40noltron000%2Fbasic-lib)
-[![Coverage Status](https://coveralls.io/repos/github/noltron000/basic-lib/badge.svg?branch=master)](https://coveralls.io/github/noltron000/basic-lib?branch=master)
-![Travis CI](https://api.travis-ci.com/noltron000/noltron000.github.io.svg?branch=deploy)
-![# Issues](https://img.shields.io/github/issues/noltron000/basic-lib.svg)
-[![MIT License](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
-![# Stars](https://img.shields.io/github/stars/noltron000/basic-lib.svg)
-![# Forks](https://img.shields.io/github/forks/noltron000/basic-lib.svg)
-![GitHub repo size](https://img.shields.io/github/repo-size/noltron000/basic-lib)
-
-[![GitHub](https://img.shields.io/static/v1?style=social&logo=github&label=GitHub&message=fork)](https://github.com/noltron000/basic-lib)
-[![NPM](https://img.shields.io/static/v1?style=social&logo=npm&label=NPM&message=install)](https://www.npmjs.com/package/@noltron000/basic-lib)
+[![npm version](https://img.shields.io/npm/v/%40noltron000%2Fbasic-lib)](https://www.npmjs.com/package/@noltron000/basic-lib)
+[![Coverage Status](https://coveralls.io/repos/github/noltron000/basic-lib/badge.svg?branch=main)](https://coveralls.io/github/noltron000/basic-lib?branch=main)
+[![MIT License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE.md)
 
 # BasicLib
-A collection of utilities brought together from three small projects:
-- **shtam**: math and number utilities, including rounding, formatting, conversions, and random values.
-- **setad**: date and time accessors, formatting, and relative-time descriptions.
-- **sdrow**: string and word transformations, including casing and whitespace helpers.
+BasicLib is a collection of small TypeScript utilities for math and numbers,
+dates and times, and strings. Its APIs are exported from one package entry point.
 
-<!--
-!THIS BLOCK HAS BEEN INVALIDATED!
+## Contents
+- [BasicLib](#basiclib)
+	- [Contents](#contents)
+	- [Install](#install)
+	- [Use](#use)
+	- [API](#api)
+		- [Math and numbers (`shtam`)](#math-and-numbers-shtam)
+		- [Dates and times (`setad`)](#dates-and-times-setad)
+		- [Strings (`sdrow`)](#strings-sdrow)
+	- [Develop and test](#develop-and-test)
+	- [License](#license)
 
-## Features
-1. `String.prototype.upperFirst( )` A function that uppercases the first character of string.
-	- Example Input: `i want this capitalized.`
-	- Expected Output: `I want this capitalized.`
-1. `String.prototype.lowerFirst( )` A function that lowercases the first character of string.
-	- Example Input: `I like lowercase`
-	- Expected Output: `i like lowercase`
-1. `String.prototype.upperWord( )` A function that uppercases the first letter of each word in a string.
-	- Example Input: `I like caps.`
-	- Expected Output: `I Like Caps.`
-1. `String.prototype.upperWiggle( )` A function that uppercases every other letter.
-	- Example Input: `I feel All wiggly.`
-	- Expected Output: `I FeEl aLl wIgGlY.`
-1. `String.prototype.removeSpaces( )` A function that removes all whitespace from a given string.
-	- Example Input: `try to decode this!`
-	- Expected Output: `trytodecodethis!`
-1. `String.prototype.trimSpaces( )` A function that removes only the extra whitespace from a given string (example: `" a b " → "a b"`).
-	- Example Input: `far out`
-	- Expected Output: `far out`
-1. `String.prototype.allCaps( )` A function that makes all characters uppercase. (this is the same as `.toUppercase()`).
-	- Example Input: `i like to yell!!`
-	- Expected Output: `I LIKE TO YELL!!`
-1. `String.prototype.kababCase( )` A function that removes extra spaces and replaces spaces with the hyphen "-", and makes all characters lowercase.
-	- Example Input: `What is kabab-case anyway`
-	- Expected Output: `what-is-kabab-case-anyway`
-1. `String.prototype.snakeCase( )` Removes extra space and replaces spaces with an underscore "\_", and makes all characters lowercase.
-	- Example Input: `Snakes are Amazing`
-	- Expected Output: `snakes_are_amazing`
-1. `String.prototype.camelCase( )` Lowercases the first character of the first word. Then uppercases the first character of all other words, and removes all spaces.
-	- Example Input: `CAMELS are a special sort of animal.`
-	- Expected Output: `camelsAreASpecialSortOfAnimal`
-
-See [Homework 1](https://github.com/Make-School-Courses/FEW-2.1-Writing-JavaScript-Libraries/blob/master/Assignments/assignment-1-string-lib.md)
-
-## Usage
-Just connect any of those functions to a string and see magic! Note, none of these functions take in a parameter. They are methods.
-
-Example:
-```js
-let superString =
-	'wow! this project is    soooooooooooo   cool. Just amazing.    '
-console.log(superString.snakeCase())
+## Install
+```sh
+npm install @noltron000/basic-lib
 ```
---->
+
+The package exports TypeScript `.mts` source files. Use a TypeScript-aware
+toolchain, or a Node.js version that supports stripping TypeScript types when
+running it directly. On Node.js versions that require the flag, use
+`--experimental-strip-types`.
+
+## Use
+Import the functions and classes you need from the package:
+```ts
+import {
+	Setad,
+	camelCase,
+	formatDollars,
+	random,
+} from '@noltron000/basic-lib'
+
+console.log(formatDollars(12.5)) // "$ 12.50"
+console.log(camelCase('hello, basic library')) // "helloBasicLibrary"
+console.log(random(1, 5)) // A number >= 1 and < 5
+
+const date = new Setad(2024, 1, 29)
+console.log(date.mask('DNAME, MNAME DAY, YEAR')) // "thursday, february 29, 2024"
+```
+
+`Setad` uses JavaScript `Date` conventions for numeric date parts: months are
+zero-based (`0` is January), and omitted day/time parts default to the first
+day and midnight. It also accepts a `Date`, date string, or timestamp.
+
+## API
+All names below are named exports from `@noltron000/basic-lib`.
+
+### Math and numbers (`shtam`)
+**Constants**
+- `PHI`, `PSI`, `PI`, `E` — the golden ratio, silver ratio, π, and Euler's
+	number.
+
+**Helpers**
+- `round(number)`, `floor(number)`, `ceil(number)`, `trunc(number)` — wrappers
+	around the corresponding `Math` operations.
+- `padZeroes(number, left, right)` — returns a string with the requested
+	zero-padding before the integer part and after the decimal point. Padding
+	lengths must be non-negative integers and the value must be finite.
+- `radToDeg(radians)`, `degToRad(degrees)` — convert between radians and
+	degrees.
+- `formatDollars(amount)`, `formatCents(amount)` — format a dollar amount as
+	dollars or rounded cents (for example, `formatCents(12.34)` returns
+	`"1234 ¢"`).
+- `taxAmount(amount, rate)`, `taxTotal(amount, rate)` — calculate the tax
+	portion or amount including tax. `rate` is a decimal rate, such as `0.1`
+	for 10%.
+- `interestCompound(amount, rate, intervals)`,
+	`interestSimple(amount, rate, intervals)` — calculate compound or simple
+	interest totals using a decimal rate.
+- `mortgage(amount, rate, intervals)` — calculate the compounded total divided
+	by the number of intervals. `intervals` must be positive and finite.
+- `toBase(number, before = 10, after = 16)` — convert an integer from one
+	radix to another. Radices must be integers from 2 through 36.
+- `random(min = 0, max = 1)` — return a random number in the half-open range
+	`[min, max)`. Bounds must be finite, and `max` cannot be less than `min`.
+- `randInt(min = 0, max = 10)` — return a random integer in the half-open
+	range `[min, max)`. Non-integer bounds are rounded inward; the resulting
+	range must contain at least one integer.
+- `randHex()` — return a random uppercase six-digit color string such as
+	`"#A1B2C3"`.
+- `factorial(n)` — calculate `n!`; `n` must be a non-negative integer.
+- `eulersNumber(precision = 100)` — approximate Euler's number by summing
+	terms through the requested factorial precision.
+
+### Dates and times (`setad`)
+`Setad` wraps a JavaScript `Date`. Its constructor accepts no arguments (the
+current date and time), a `Date`, a date string, a timestamp, or numeric
+`year, month, day?, hours?, minutes?, seconds?, milliseconds?` parts. Invalid
+dates throw a `RangeError`.
+- `getYear()`, `getMonth()`, `getDay()` — return the local year, zero-based
+	month, and day of the month.
+- `getHour()`, `getMinute()`, `getSecond()`, `getMillisecond()` — return local
+	time parts.
+- `readDay()`, `readMonth()` — return the local weekday or month name in
+	lowercase.
+- `isLeapYear()` — report whether the local year is a Gregorian leap year.
+- `mask(pattern)` — replace date/time tokens in a pattern:
+
+	| Token | Meaning | Example |
+	| --- | --- | --- |
+	| `YEAR` / `year` | Four-digit / two-digit year | `2024` / `24` |
+	| `MONTH` / `month` | Zero-padded / unpadded month number | `02` / `2` |
+	| `MNAME` / `mname` | Full / three-letter month name | `february` / `feb` |
+	| `DAY` / `day` | Zero-padded / unpadded day of month | `09` / `9` |
+	| `DNAME` / `dname` | Full / three-letter weekday name | `thursday` / `thu` |
+	| `HOUR` / `hour` | Zero-padded / unpadded hour | `03` / `3` |
+	| `MINUTE` / `minute` | Zero-padded / unpadded minute | `04` / `4` |
+	| `SECOND` / `second` | Zero-padded / unpadded second | `05` / `5` |
+	| `MILLI` / `milli` | Zero-padded / unpadded millisecond | `006` / `6` |
+
+- `when(other)` — describe `other` relative to this `Setad`. Equal values
+	return `"right now"`; an earlier `other` returns a phrase ending in
+	`"ago"`, and a later one ends in `"from now"`.
+
+	```ts
+	const reference = new Setad('2024-01-01T00:00:00.000Z')
+	reference.when(new Setad('2024-01-01T00:00:02.000Z')) // "2 seconds from now"
+	```
+
+### Strings (`sdrow`)
+**Word helpers**
+- `capWord(word)` — capitalize the first character and lowercase the rest.
+- `upperWord(word)`, `lowerWord(word)` — change the entire word's case.
+- `jiggleWord(word)`, `wiggleWord(word)` — alternate uppercase/lowercase
+	characters, starting uppercase or lowercase respectively.
+
+**Whitespace and character helpers**
+- `removeSpaces(sentence)` — remove all whitespace.
+- `trimSpaces(sentence)` — collapse whitespace runs to one space and trim the
+	ends.
+- `removeNonAlpha(sentence)` — remove digits and non-word punctuation while
+	retaining whitespace and underscores.
+- `caseCase(sentence, transformWord)` — normalize whitespace, apply a
+	word-transform function to each word, and join the words with single spaces.
+
+**Sentence transforms**
+- `upperCase(sentence)`, `lowerCase(sentence)` — change each word's case.
+- `jiggleCase(sentence)`, `wiggleCase(sentence)` — alternate each word's case.
+- `kababCase(sentence)`, `kebabCase(sentence)` — lowercase words joined by
+	hyphens; `kebabCase` is an alias of `kababCase`.
+- `snakeCase(sentence)` — lowercase words joined by underscores.
+- `camelCase(sentence)`, `pascalCase(sentence)` — create lower camel-case or
+	Pascal-case text.
+
+## Develop and test
+Requires Node.js 22 and npm. Clone the repository, install dependencies, and
+run the test suite:
+```sh
+npm ci
+npm test
+```
+
+Generate a text coverage summary and an LCOV report for Coveralls with:
+```sh
+npm run coverage
+```
+
+The LCOV file is written to `coverage/lcov.info`. GitHub Actions runs tests and
+submits this report to Coveralls on pushes and pull requests.
+
+## License
+BasicLib is available under the [MIT License](LICENSE.md).
