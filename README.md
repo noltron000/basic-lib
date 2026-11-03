@@ -1,5 +1,5 @@
 ![npm](https://img.shields.io/npm/v/%40noltron000%2Fbasic-lib)
-[![Coverage Status](https://coveralls.io/repos/github/noltron000/basic-lib/badge.svg?branch=master)](https://coveralls.io/github/noltron000/basic-lib?branch=master)
+[![Coverage Status](https://coveralls.io/repos/github/noltron000/basic-lib/badge.svg?branch=main)](https://coveralls.io/github/noltron000/basic-lib?branch=main)
 ![Travis CI](https://api.travis-ci.com/noltron000/noltron000.github.io.svg?branch=deploy)
 ![# Issues](https://img.shields.io/github/issues/noltron000/basic-lib.svg)
 [![MIT License](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)

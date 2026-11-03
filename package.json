@@ -28,10 +28,11 @@
 	"homepage": "https://github.com/noltron000/basic-lib#readme",
 	"devDependencies": {
 		"@types/node": "^26.6.6",
+		"c8": "^12.0.0",
 		"typescript": "^7.0.2"
 	},
-	"dependencies": {},
 	"scripts": {
-		"test": "node --experimental-strip-types --test source/shtam.test.mts source/setad.test.mts source/sdrow.test.mts"
+		"test": "node --experimental-strip-types --test source/shtam.test.mts source/setad.test.mts source/sdrow.test.mts",
+		"coverage": "c8 --all --include=source/**/*.mts --exclude=source/**/*.test.mts --extension=.mts --reporter=text --reporter=lcov npm test"
 	}
 }
