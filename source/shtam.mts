@@ -6,7 +6,7 @@
 // Golden Ratio
 export const PHI: number = (1 + 5**(1 / 2)) / 2
 // Silver Ratio
-export const PSI: number = PHI - 1
+export const PSI: number = 1 + Math.sqrt(2)
 // Perimetros Number
 export const PI: number = Math.PI
 // Euler's Number
@@ -44,17 +44,24 @@ export const padZeroes = (
 	left: number,
 	right: number,
 ): string => {
-	let maybeDecimal: string = ''
-	if (number % 1 == 0 || right == 0) {
-		// If the number is divisible by 1,
-		// then it is a whole number.
-		// This means it does not have a decimal point.
-		maybeDecimal = maybeDecimal.concat('.')
+	if (!Number.isInteger(left) || left < 0 ||
+		!Number.isInteger(right) || right < 0) {
+		throw new RangeError('Padding lengths must be non-negative integers.')
 	}
-	// Combine the stringified number with the maybeDecimal.
-	let middle: string = `${number.toString()}${maybeDecimal}`
-	// This string literal takes care of the rest.
-	return `${'0'.repeat(left)}${middle}${'0'.repeat(right)}`
+	if (!Number.isFinite(number)) {
+		throw new RangeError('The value to pad must be finite.')
+	}
+
+	// Keep the sign attached to the value while padding the integer portion.
+	const [integer, fraction] = number.toString().split('.')
+	const sign = integer.startsWith('-') ? '-' : ''
+	const unsignedInteger = sign ? integer.slice(1) : integer
+	const paddedInteger = `${sign}${'0'.repeat(left)}${unsignedInteger}`
+	if (fraction === undefined && right === 0) {
+		return paddedInteger
+	}
+	// Preserve existing decimal digits and append the requested zeroes.
+	return `${paddedInteger}.${fraction ?? ''}${'0'.repeat(right)}`
 }
 
 /*
@@ -82,8 +89,7 @@ export const formatDollars = (amount: number): string => {
 
 export const formatCents = (amount: number): string => {
 	// assumes amount is in dollars
-	amount *= 100
-	return amount.toString() + ' ¢'
+	return `${Math.round(amount * 100)} ¢`
 }
 
 /*
@@ -131,6 +137,9 @@ export const mortgage = (
 	rate: number,
 	intervals: number,
 ): number => {
+	if (!Number.isFinite(intervals) || intervals <= 0) {
+		throw new RangeError('Mortgage intervals must be a positive finite number.')
+	}
 	return interestCompound(amount, rate, intervals) / intervals
 }
 
@@ -144,7 +153,20 @@ export const toBase = (
 	before: number = 10,
 	after: number = 16,
 ): string => {
-	return parseInt(number.toString(), before).toString(after)
+	if (![before, after].every(
+		(radix) => Number.isInteger(radix) && radix >= 2 && radix <= 36,
+	)) {
+		throw new RangeError('Radices must be integers between 2 and 36.')
+	}
+	if (!Number.isInteger(number)) {
+		throw new RangeError('The value to convert must be an integer.')
+	}
+	const input = number.toString()
+	const converted = parseInt(input, before)
+	if (Number.isNaN(converted)) {
+		throw new RangeError(`The value is not valid in base ${before}.`)
+	}
+	return converted.toString(after)
 }
 
 /*
@@ -157,6 +179,9 @@ export const random = (
 	min: number = 0, // min is inclusive
 	max: number = 1, // max is exclusive
 ): number => {
+	if (!Number.isFinite(min) || !Number.isFinite(max) || max < min) {
+		throw new RangeError('Random bounds must be finite and max must not be less than min.')
+	}
 	let randomNumber = Math.random()
 	// The random number starts between 0 and 1.
 	randomNumber *= (max - min)
@@ -169,10 +194,16 @@ export const randInt = (
 	min: number = 0, // min is inclusive
 	max: number = 10, // max is exclusive
 ): number => {
+	if (!Number.isFinite(min) || !Number.isFinite(max)) {
+		throw new RangeError('Random integer bounds must be finite.')
+	}
 	// Clean the input a bit.
 	// We want the same weight on each number.
 	min = ceil(min)
 	max = floor(max)
+	if (max <= min) {
+		throw new RangeError('Random integer bounds must contain at least one integer.')
+	}
 	// Grab the random number from the random function.
 	let randomNumber: number = random(min, max)
 	// Then just take its floor since the max is exclusive.
@@ -188,7 +219,7 @@ export const randHex = (): string => {
 	// Now get a random number between zero and this decimal.
 	const randomDecimal: number = randInt(0, largestDecimal)
 	// Convert the random number to base-16.
-	const hexCode: string = toBase(randomDecimal)
+	const hexCode: string = toBase(randomDecimal).padStart(6, '0')
 	// Return the reformatted string.
 	return `#${hexCode.toUpperCase()}`
 }
@@ -199,17 +230,16 @@ export const randHex = (): string => {
 */
 
 export const factorial = (n: number): number => {
+	if (!Number.isInteger(n) || n < 0) {
+		throw new RangeError('Factorial requires a non-negative integer.')
+	}
 	let product: number
-
-	if (n === 1 || n === 0) {
+	if (n === 0 || n === 1) {
 		// base case
-		product = n
-	} else if (n > 1) {
+		product = 1
+	} else {
 		// larger positive number
 		product = n * factorial(n - 1)
-	} else {
-		// some other wierd case
-		product = NaN
 	}
 
 	// finally, return result
@@ -225,11 +255,11 @@ const factorialMemo = (n: number): number[] => {
 		if (i === 0 || i === 1) {
 			// base case
 			product = 1
-		} else if (n > 1) {
+		} else if (i > 1) {
 			// larger positive number
 			product = i * productList[i - 1]
 		} else {
-			// some other wierd case
+			// some other weird case
 			product = NaN
 		}
 
@@ -256,6 +286,9 @@ const factorialMemo = (n: number): number[] => {
 */
 
 export const eulersNumber = (precision: number = 100): number => {
+	if (!Number.isInteger(precision) || precision < 0) {
+		throw new RangeError('Precision must be a non-negative integer.')
+	}
 	let e: number = 0
 	// need every factorial from 0 to n
 	const factorialList: number[] = factorialMemo(precision)

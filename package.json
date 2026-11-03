@@ -30,6 +30,6 @@
 	},
 	"dependencies": {},
 	"scripts": {
-		"test": "node --experimental-strip-types --test source/shtam.test.mts"
+		"test": "node --experimental-strip-types --test source/shtam.test.mts source/setad.test.ts source/sdrow.test.ts"
 	}
 }

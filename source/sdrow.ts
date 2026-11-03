@@ -37,6 +37,8 @@ export const wiggleWord = (word: string): string => {
 	return result
 }
 
+// *THESE TWO ARE SPACE-ORIENTED HELPER FUNCTIONS* //
+
 export const removeSpaces = (sentence: string): string => {
 	// replace any number of spaces with an empty string.
 	// `/\s+` selects consecutive occurences of whitespace.
@@ -64,17 +66,18 @@ export const removeNonAlpha = (sentence: string): string => {
 	return sentence.replace(/[^\w\s]|\d/g, '')
 }
 
-// ==TODO==
-// determine what `type` that a function is;
-// it is passed in as a parameter!
-export const caseCase = (sentence: string, lambda: any): string => {
-	let result: string = ''
-	const words: string[] = sentence.split(' ')
-	for (let word of words) {
-		word = lambda(word)
-		result = result.concat(word, ' ')
-	}
-	return result.trim()
+// *BELOW ARE ALL SENTENCE-BASED FUNCTIONS* //
+
+export const caseCase = (
+	sentence: string,
+	transformWord: (word: string) => string,
+): string => {
+	// Apply the same word-level transform consistently across the sentence.
+	return trimSpaces(sentence)
+		.split(' ')
+		.filter(Boolean)
+		.map(transformWord)
+		.join(' ')
 }
 
 const capCase = (sentence: string): string => {
@@ -108,6 +111,8 @@ export const kababCase = (sentence: string): string => {
 	// `/g` stands for a global search.
 	return result
 }
+
+export const kebabCase = kababCase
 
 export const snakeCase = (sentence: string): string => {
 	let result: string = sentence

@@ -1,8 +1,46 @@
-class Setad {
+export class Setad {
 	date: Date
-	constructor(...args: any[]) {
-		// @ts-ignore
-		this.date = new Date(...args)
+	constructor()
+	constructor(value: Date | string | number)
+	constructor(
+		year: number,
+		month: number,
+		day?: number,
+		hours?: number,
+		minutes?: number,
+		seconds?: number,
+		milliseconds?: number,
+	)
+	constructor(
+		value?: Date | string | number,
+		month?: number,
+		day = 1,
+		hours = 0,
+		minutes = 0,
+		seconds = 0,
+		milliseconds = 0,
+	) {
+		if (value instanceof Date) {
+			this.date = new Date(value.getTime())
+		} else if (typeof value === 'number' && month !== undefined) {
+			this.date = new Date(
+				value,
+				month,
+				day,
+				hours,
+				minutes,
+				seconds,
+				milliseconds,
+			)
+		} else if (typeof value === 'string' || typeof value === 'number') {
+			this.date = new Date(value)
+		} else {
+			this.date = new Date()
+		}
+
+		if (Number.isNaN(this.date.getTime())) {
+			throw new RangeError('Setad requires a valid date.')
+		}
 	}
 
 	getYear = (): number => {
@@ -65,129 +103,117 @@ class Setad {
 	}
 
 	isLeapYear = (): boolean => {
-		return this.date.getFullYear() % 4 == 0
+		const year = this.getYear()
+		return year % 4 === 0 && (year % 100 !== 0 || year % 400 === 0)
 	}
 
 	mask = (mask: string): string => {
 		const fullYear = this.getYear().toString()
 		const truncYear = clipString(fullYear, 2, true)
-		mask = mask.replace('YEAR', fullYear)
-		mask = mask.replace('year', truncYear)
+		mask = mask.replace(/YEAR/g, fullYear)
+		mask = mask.replace(/year/g, truncYear)
 
-		const bareMonth = this.getMonth().toString()
+		const bareMonth = (this.getMonth() + 1).toString()
 		const paddedMonth = leftPad(bareMonth, 2)
-		mask = mask.replace('MONTH', paddedMonth)
-		mask = mask.replace('month', bareMonth)
+		mask = mask.replace(/MONTH/g, paddedMonth)
+		mask = mask.replace(/month/g, bareMonth)
 
 		const fullMonthName = this.readMonth()
 		const truncMonthName = clipString(fullMonthName, 3)
-		mask = mask.replace('MNAME', fullMonthName)
-		mask = mask.replace('mname', truncMonthName)
+		mask = mask.replace(/MNAME/g, fullMonthName)
+		mask = mask.replace(/mname/g, truncMonthName)
 
 		const bareDay = this.getDay().toString()
 		const paddedDay = leftPad(bareDay, 2)
-		mask = mask.replace('DAY', paddedDay)
-		mask = mask.replace('day', bareDay)
+		mask = mask.replace(/DAY/g, paddedDay)
+		mask = mask.replace(/day/g, bareDay)
 
 		const fullDayName = this.readDay()
 		const truncDayName = clipString(fullDayName, 3)
-		mask = mask.replace('DNAME', fullDayName)
-		mask = mask.replace('dname', truncDayName)
+		mask = mask.replace(/DNAME/g, fullDayName)
+		mask = mask.replace(/dname/g, truncDayName)
 
 		const bareHour = this.getHour().toString()
 		const paddedHour = leftPad(bareHour, 2)
-		mask = mask.replace('HOUR', paddedHour)
-		mask = mask.replace('hour', bareHour)
+		mask = mask.replace(/HOUR/g, paddedHour)
+		mask = mask.replace(/hour/g, bareHour)
 
 		const bareMinute = this.getMinute().toString()
 		const paddedMinute = leftPad(bareMinute, 2)
-		mask = mask.replace('MINUTE', paddedMinute)
-		mask = mask.replace('minute', bareMinute)
+		mask = mask.replace(/MINUTE/g, paddedMinute)
+		mask = mask.replace(/minute/g, bareMinute)
 
 		const bareSecond = this.getSecond().toString()
 		const paddedSecond = leftPad(bareSecond, 2)
-		mask = mask.replace('SECOND', paddedSecond)
-		mask = mask.replace('second', bareSecond)
+		mask = mask.replace(/SECOND/g, paddedSecond)
+		mask = mask.replace(/second/g, bareSecond)
 
 		const bareMillisecond = this.getMillisecond().toString()
 		const paddedMillisecond = leftPad(bareMillisecond, 3)
-		mask = mask.replace('MILLI', paddedMillisecond)
-		mask = mask.replace('milli', bareMillisecond)
+		mask = mask.replace(/MILLI/g, paddedMillisecond)
+		mask = mask.replace(/milli/g, bareMillisecond)
 
 		return mask
 	}
 
 	when = (that: Setad): string => {
-		let diff: number
-		diff = this.date.valueOf() - that.date.valueOf()
-
-		// get addon english stuff for output
-		let endOfPhrase: string
-		if (diff < 0) {
-			endOfPhrase = 'from now'
-		} else {
-			endOfPhrase = 'ago'
+		if (!(that instanceof Setad)) {
+			throw new TypeError('Setad.when expects another Setad instance.')
 		}
-		// take absolute value of difference;
-		// its not human readable if negative.
+
+		let diff = this.date.valueOf() - that.date.valueOf()
+		if (diff === 0) {
+			return 'right now'
+		}
+
+		// Choose the phrase direction before taking the absolute difference.
+		const endOfPhrase = diff < 0 ? 'from now' : 'ago'
+		// Take the absolute value; a negative duration is not human-readable.
 		diff = Math.abs(diff)
-		const milliseconds: number = diff % 1000
+		// Split the duration into calendar-sized units from smallest to largest.
+		const milliseconds = diff % 1000
 		diff = Math.floor(diff / 1000)
-		const seconds: number = diff % 60
+		const seconds = diff % 60
 		diff = Math.floor(diff / 60)
-		const minutes: number = diff % 60
+		const minutes = diff % 60
 		diff = Math.floor(diff / 60)
-		const hours: number = diff % 24
+		const hours = diff % 24
 		diff = Math.floor(diff / 24)
-		const days: number = diff % 365
-		diff = Math.floor(diff / 365)
-		const years: number = diff
+		const days = diff % 365
+		const years = Math.floor(diff / 365)
 
-		let baseOfPhrase: string = ''
-		let finalPhrase: string = ''
-		if (diff > 0) {
-			// go backwards from largest to smallest
-			if (years > 0) {
-				baseOfPhrase += `${years} years, `
-			}
-			if (days > 0) {
-				baseOfPhrase += `${days} days, `
-			}
-			if (hours > 0) {
-				baseOfPhrase += `${hours} hours, `
-			}
-			if (minutes > 0) {
-				baseOfPhrase += `${minutes} minutes, `
-			}
-			if (seconds > 0) {
-				baseOfPhrase += `${seconds} seconds, `
-			}
-			if (milliseconds > 0) {
-				baseOfPhrase += `${milliseconds} milliseconds, `
-			}
-			// trim final comma-space combo
-			baseOfPhrase = baseOfPhrase.slice(0, -2)
-			// complete the phrase
-			finalPhrase = `${baseOfPhrase} ${endOfPhrase}`
-		} else {
-			finalPhrase = 'right now'
+		// Build the description from the largest non-zero unit to the smallest.
+		const baseOfPhrase: string[] = []
+		if (years > 0) {
+			baseOfPhrase.push(formatUnit(years, 'year'))
+		}
+		if (days > 0) {
+			baseOfPhrase.push(formatUnit(days, 'day'))
+		}
+		if (hours > 0) {
+			baseOfPhrase.push(formatUnit(hours, 'hour'))
+		}
+		if (minutes > 0) {
+			baseOfPhrase.push(formatUnit(minutes, 'minute'))
+		}
+		if (seconds > 0) {
+			baseOfPhrase.push(formatUnit(seconds, 'second'))
+		}
+		if (milliseconds > 0) {
+			baseOfPhrase.push(formatUnit(milliseconds, 'millisecond'))
 		}
 
-		return finalPhrase
+		return `${baseOfPhrase.join(', ')} ${endOfPhrase}`
 	}
+}
+
+const formatUnit = (count: number, unit: string): string => {
+	return `${count} ${unit}${count === 1 ? '' : 's'}`
 }
 
 // LeftPad expects an integer, and outputs a string.
 const leftPad = (inputNum: string, digits: number): string => {
-	// `output` is the string to give back; it starts empty.
-	let output: string = ''
-	// `size` is the number of digits that the number has.
-	const size: number = inputNum.length
-	if (digits > size) {
-		const diff: number = digits - size
-		output = '0'.repeat(diff)
-	}
-	return `${output}${inputNum}`
+	return inputNum.padStart(digits, '0')
 }
 
 // ClipString is useful for masking phrases.
