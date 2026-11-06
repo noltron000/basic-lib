@@ -49,6 +49,11 @@ test('caseCase(): applies a transform to each word', () => {
 	assert.equal(sdrow.caseCase('  two\t words  ', sdrow.capWord), 'Two Words')
 })
 
+test('capCase(): capitalizes each word and normalizes whitespace', () => {
+	assert.equal(sdrow.capCase('  hELLO,\tWORLD!  '), 'Hello, World!')
+	assert.equal(sdrow.capCase(''), '')
+})
+
 test('upperCase(): capitalizes all letters', () => {
 	assert.equal(sdrow.upperCase('I am a MOSTLY lowercase sentence.'), 'I AM A MOSTLY LOWERCASE SENTENCE.')
 })

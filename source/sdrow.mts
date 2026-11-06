@@ -80,7 +80,7 @@ export const caseCase = (
 		.join(' ')
 }
 
-const capCase = (sentence: string): string => {
+export const capCase = (sentence: string): string => {
 	return caseCase(sentence, capWord)
 }
 

@@ -146,6 +146,7 @@ dates throw a `RangeError`.
 	word-transform function to each word, and join the words with single spaces.
 
 **Sentence transforms**
+- `capCase(sentence)` — capitalize each word while preserving punctuation.
 - `upperCase(sentence)`, `lowerCase(sentence)` — change each word's case.
 - `jiggleCase(sentence)`, `wiggleCase(sentence)` — alternate each word's case.
 - `kababCase(sentence)`, `kebabCase(sentence)` — lowercase words joined by
