@@ -41,7 +41,7 @@ export const wiggleWord = (word: string): string => {
 
 export const removeSpaces = (sentence: string): string => {
 	// replace any number of spaces with an empty string.
-	// `/\s+` selects consecutive occurences of whitespace.
+	// `/\s+` selects consecutive occurrences of whitespace.
 	// `/g` stands for a global search.
 	return sentence.replace(/\s+/g, '')
 }
@@ -49,7 +49,7 @@ export const removeSpaces = (sentence: string): string => {
 export const trimSpaces = (sentence: string): string => {
 	// replace any number of spaces with a single space.
 	// then, trim extra spaces before/after the sentence.
-	// `/\s+` selects consecutive occurences of whitespace.
+	// `/\s+` selects consecutive occurrences of whitespace.
 	// `/g` stands for a global search.
 	return sentence.replace(/\s+/g, ' ').trim()
 }
