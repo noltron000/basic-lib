@@ -6,10 +6,12 @@
 		"types": ["node"],
 		"strict": true,
 		"skipLibCheck": true,
+		"allowImportingTsExtensions": true,
+		"rewriteRelativeImportExtensions": true,
 		"forceConsistentCasingInFileNames": true,
 		"rootDir": "./source",
 		"outDir": "./build"
 	},
 	"include": ["source/**/*.mts"],
-	"exclude": ["source/**/*.test.mts", "node_modules"]
+	"exclude": ["node_modules"]
 }

@@ -29,9 +29,7 @@
 	],
 	"author": "noltron000",
 	"license": "MIT",
-	"bugs": {
-		"url": "https://github.com/noltron000/basic-lib/issues"
-	},
+	"bugs": {"url": "https://github.com/noltron000/basic-lib/issues"},
 	"homepage": "https://github.com/noltron000/basic-lib#readme",
 	"publishConfig": {"access": "public"},
 	"devDependencies": {
